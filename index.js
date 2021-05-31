@@ -13,14 +13,14 @@ const USER_ACTIVATION_EVENTS = [
   'touchend'
 ]
 
-function unmuteIosAudio () {
-  const AudioContext = window.webkitAudioContext
+function unmuteIosAudio (alwaysUnmuteAudio) {
+  const AudioContext = window.AudioContext || window.webkitAudioContext
 
   // To detect iOS, check for touch device and confirm Safari-only
   // webkitAudioContext is present.
-  const isIos = navigator.maxTouchPoints > 0 && AudioContext != null
+  const isIos = navigator.maxTouchPoints > 0 && window.webkitAudioContext != null
 
-  if (!isIos) return
+  if (!alwaysUnmuteAudio && !isIos) return
 
   // state can be 'blocked', 'pending', 'allowed'
   let htmlAudioState = 'blocked'
